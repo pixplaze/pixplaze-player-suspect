@@ -26,8 +26,8 @@ public final class PixplazePlayerSuspect extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        Objects.requireNonNull(getCommand("jail")).setExecutor(new SuspectCommand());
-        Objects.requireNonNull(getCommand("unjail")).setExecutor(new DesuspectCommand());
+        Objects.requireNonNull(getCommand("suspect")).setExecutor(new SuspectCommand());
+        Objects.requireNonNull(getCommand("desuspect")).setExecutor(new DesuspectCommand());
     }
 
     @Override
