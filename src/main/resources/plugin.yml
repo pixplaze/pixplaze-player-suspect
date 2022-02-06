@@ -1,14 +1,14 @@
-name: JailPlugin
+name: PixplazePlayerSuspect
 version: '${project.version}'
-main: com.pixplaze.plugin.JailPlugin
+main: com.pixplaze.plugin.PixplazePlayerSuspect
 api-version: 1.18
 authors: [ Emberati ]
 
 commands:
-  jail:
-    description: To jail player
-    usage: /jail <username>
+  suspect:
+    description: To suspect player
+    usage: /suspect <username>
 
-  unjail:
-    description: Unjail player
-    usage: /unjail <username>
+  desuspect:
+    description: To desuspect player
+    usage: /desuspect <username>

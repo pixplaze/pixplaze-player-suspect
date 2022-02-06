@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pixplaze-custom-plugins</groupId>
-    <artifactId>pixplaze-jail-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>pixplaze-corepluins</groupId>
+    <artifactId>PixplazePlayerSuspect</artifactId>
+    <version>0.1.0-dev</version>
     <packaging>jar</packaging>
 
-    <name>Pixplaze Jail Plugin</name>
+    <name>PixplazePlayerSuspect</name>
 
     <properties>
         <java.version>1.8</java.version>
@@ -25,6 +25,14 @@
                 <configuration>
                     <source>15</source>
                     <target>15</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <outputDirectory>../../../srv/plugins</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>

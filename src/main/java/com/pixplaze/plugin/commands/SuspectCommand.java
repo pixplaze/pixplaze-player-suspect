@@ -1,16 +1,16 @@
 package com.pixplaze.plugin.commands;
 
-import com.pixplaze.plugin.JailPlugin;
+import com.pixplaze.plugin.PixplazePlayerSuspect;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
-public class JailCommand extends JailingBase {
+public class SuspectCommand extends SuspectBase {
 
     @Override
-    public boolean jailAction(Player player, CommandSender sender) {
+    public boolean suspectAction(Player player, CommandSender sender) {
         var message = "";
 
         var inventory = player.getInventory();
@@ -18,11 +18,11 @@ public class JailCommand extends JailingBase {
 
         // Jailing player
         player.setGameMode(GameMode.ADVENTURE);
-        JailPlugin.playerItems = Arrays.copyOf(itemStack, itemStack.length);
+        PixplazePlayerSuspect.playerItems = Arrays.copyOf(itemStack, itemStack.length);
         inventory.clear();
 
-        message = "Player %s was jailed! Inventory cleared. Game mode set to adventure".formatted(player.getName());
-        logger.warning("Items after jailing: " + Arrays.toString(JailPlugin.playerItems));
+        message = "The %s player was suspected! Inventory cleared. Game mode set to adventure".formatted(player.getName());
+        logger.warning("Items after suspecting: " + Arrays.toString(PixplazePlayerSuspect.playerItems));
         logger.info(message);
         sender.sendMessage(message);
         return true;

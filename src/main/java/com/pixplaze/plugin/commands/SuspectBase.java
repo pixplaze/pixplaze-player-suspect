@@ -1,7 +1,7 @@
 package com.pixplaze.plugin.commands;
 
 import com.pixplaze.exceptions.PlayersNotFoundException;
-import com.pixplaze.plugin.JailPlugin;
+import com.pixplaze.plugin.PixplazePlayerSuspect;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public abstract class JailingBase implements CommandExecutor {
+public abstract class SuspectBase implements CommandExecutor {
 
-    protected static final Logger logger = JailPlugin.getInstance().logger;
-    protected static final Server server = JailPlugin.getInstance().getServer();
+    protected static final Logger logger = PixplazePlayerSuspect.getInstance().logger;
+    protected static final Server server = PixplazePlayerSuspect.getInstance().getServer();
     // protected static List<Player> playersJailList;
 
-    protected static ArrayList<Player> parseJailingPlayers(String[] playerNames) throws PlayersNotFoundException {
+    protected static ArrayList<Player> parseSuspectingPlayers(String[] playerNames) throws PlayersNotFoundException {
         var foundedPlayers = new ArrayList<Player>();
         var notFoundedNames = new ArrayList<String>();
         for (var name: playerNames) {
@@ -35,20 +35,20 @@ public abstract class JailingBase implements CommandExecutor {
         } return foundedPlayers;
     }
 
-    protected abstract boolean jailAction(Player player, CommandSender sender);
+    protected abstract boolean suspectAction(Player player, CommandSender sender);
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<Player> jailingPlayers;
         try {
-            jailingPlayers = parseJailingPlayers(args);
+            jailingPlayers = parseSuspectingPlayers(args);
         } catch (PlayersNotFoundException e) {
             jailingPlayers = e.getFoundedPlayers();
             sender.sendMessage(e.getMessage());
         }
         var success = false;
         for (var player: jailingPlayers) {
-            success = jailAction(player, sender);
+            success = suspectAction(player, sender);
         } return success;
     }
 }

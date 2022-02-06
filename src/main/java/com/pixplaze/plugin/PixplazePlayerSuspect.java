@@ -1,33 +1,33 @@
 package com.pixplaze.plugin;
 
-import com.pixplaze.plugin.commands.JailCommand;
-import com.pixplaze.plugin.commands.UnjailCommand;
+import com.pixplaze.plugin.commands.SuspectCommand;
+import com.pixplaze.plugin.commands.DesuspectCommand;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 import java.util.logging.Logger;
 
-public final class JailPlugin extends JavaPlugin {
+public final class PixplazePlayerSuspect extends JavaPlugin {
 
-    private static JailPlugin instance;
+    private static PixplazePlayerSuspect instance;
     public final Logger logger;
     public static ItemStack[] playerItems;
 
-    public JailPlugin() {
+    public PixplazePlayerSuspect() {
         instance = this;
         logger = getLogger();
     }
 
-    public static JailPlugin getInstance() {
+    public static PixplazePlayerSuspect getInstance() {
         return instance;
     }
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        Objects.requireNonNull(getCommand("jail")).setExecutor(new JailCommand());
-        Objects.requireNonNull(getCommand("unjail")).setExecutor(new UnjailCommand());
+        Objects.requireNonNull(getCommand("jail")).setExecutor(new SuspectCommand());
+        Objects.requireNonNull(getCommand("unjail")).setExecutor(new DesuspectCommand());
     }
 
     @Override
