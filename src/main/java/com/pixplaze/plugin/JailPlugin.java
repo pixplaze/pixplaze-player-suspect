@@ -1,7 +1,11 @@
 package com.pixplaze.plugin;
 
+import com.pixplaze.plugin.commands.JailCommand;
+import com.pixplaze.plugin.commands.UnjailCommand;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public final class JailPlugin extends JavaPlugin {
@@ -22,8 +26,8 @@ public final class JailPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        getCommand("jail").setExecutor(new Commands.JailCommand());
-        getCommand("unjail").setExecutor(new Commands.UnjailCommand());
+        Objects.requireNonNull(getCommand("jail")).setExecutor(new JailCommand());
+        Objects.requireNonNull(getCommand("unjail")).setExecutor(new UnjailCommand());
     }
 
     @Override
