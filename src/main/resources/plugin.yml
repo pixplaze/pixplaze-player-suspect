@@ -1,0 +1,14 @@
+name: JailPlugin
+version: '${project.version}'
+main: com.pixplaze.plugin.JailPlugin
+api-version: 1.18
+authors: [ Emberati ]
+
+commands:
+  jail:
+    description: To jail player
+    usage: /jail <username>
+
+  unjail:
+    description: Unjail player
+    usage: /unjail <username>
