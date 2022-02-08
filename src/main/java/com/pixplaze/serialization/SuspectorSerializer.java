@@ -15,7 +15,7 @@ public class SuspectorSerializer implements JsonSerializer<Suspector> {
 
         notnull(src.username, s -> suspector.addProperty("username", s));
         notnull(src.lastGameMode, s -> suspector.addProperty("lastGameMode", s.name()));
-        //notnull(src.inventoryItems, s -> suspector.add("inventoryItems", context.serialize(s, ItemStack[].class)));
+        notnull(src.inventoryItems, s -> suspector.add("inventoryItems", context.serialize(s, ItemStack[].class)));
         notnull(src.info, s -> suspector.add("info", context.serialize(s)));
 
         return suspector;

@@ -7,10 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.pixplaze.exceptions.NoSuchSuspectorException;
-import com.pixplaze.serialization.SuspectorDeserializer;
-import com.pixplaze.serialization.SuspectorSerializer;
-import com.pixplaze.serialization.SuspicionInfoDeserializer;
-import com.pixplaze.serialization.SuspicionInfoSerializer;
+import com.pixplaze.serialization.*;
 import org.bukkit.GameMode;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -21,6 +18,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import com.pixplaze.plugin.PixplazePlayerSuspect;
+import org.bukkit.inventory.ItemStack;
 
 import static com.pixplaze.util.Collections.pop;
 import static com.pixplaze.util.Common.notnull;
@@ -44,6 +42,8 @@ public class SuspectSession implements SuspicionExecutor {
                 .registerTypeAdapter(Suspector.class, new SuspectorDeserializer())
                 .registerTypeAdapter(Suspector.SuspicionInfo.class, new SuspicionInfoSerializer())
                 .registerTypeAdapter(Suspector.SuspicionInfo.class, new SuspicionInfoDeserializer())
+                .registerTypeAdapter(ItemStack[].class, new InventoryItemsSerializer())
+                .registerTypeAdapter(ItemStack[].class, new InventoryItemsDeserializer())
                 .create();
     }
 
