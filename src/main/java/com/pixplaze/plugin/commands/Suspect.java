@@ -12,6 +12,7 @@ public class Suspect extends Base {
         var message = "";
 
         Base.executor.suspectPlayer(player);
+        Base.executor.saveSuspectors();
 
         message = "The %s player was suspected! Inventory cleared. Game mode set to adventure".formatted(player.getName());
         logger.warning("Items after suspecting: " + Arrays.toString(player.getInventory().getContents()));

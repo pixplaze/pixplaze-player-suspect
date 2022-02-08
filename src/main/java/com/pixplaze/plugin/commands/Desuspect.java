@@ -11,6 +11,7 @@ public class Desuspect extends Base {
         var message = "";
 
         Base.executor.desuspectPlayer(player);
+        Base.executor.saveSuspectors();
 
         message = "The %s player is no longer suspect! Inventory restored. Game mode returned to survival".formatted(player.getName());
         logger.warning("Items before suspecting: " + Arrays.toString(Arrays.stream(player.getInventory().getContents()).toArray()));

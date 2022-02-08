@@ -7,7 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.pixplaze.exceptions.NoSuchSuspectorException;
+import com.pixplaze.serialization.SuspectorDeserializer;
 import com.pixplaze.serialization.SuspectorSerializer;
+import com.pixplaze.serialization.SuspicionInfoDeserializer;
 import com.pixplaze.serialization.SuspicionInfoSerializer;
 import org.bukkit.GameMode;
 import org.bukkit.Server;
@@ -21,6 +23,8 @@ import java.util.logging.Logger;
 import com.pixplaze.plugin.PixplazePlayerSuspect;
 
 import static com.pixplaze.util.Collections.pop;
+import static com.pixplaze.util.Common.notnull;
+import static com.pixplaze.util.Common.nullable;
 
 
 public class SuspectSession implements SuspicionExecutor {
@@ -33,11 +37,13 @@ public class SuspectSession implements SuspicionExecutor {
     static {
         logger = PixplazePlayerSuspect.getInstance().logger;
         server = PixplazePlayerSuspect.getInstance().getServer();
-        file = new File(PixplazePlayerSuspect.getInstance().getDataFolder() + "suspectors.json");
+        file = new File(PixplazePlayerSuspect.getInstance().getDataFolder().getAbsolutePath() + "/suspectors.json");
         gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(Suspector.class, new SuspectorSerializer())
+                .registerTypeAdapter(Suspector.class, new SuspectorDeserializer())
                 .registerTypeAdapter(Suspector.SuspicionInfo.class, new SuspicionInfoSerializer())
+                .registerTypeAdapter(Suspector.SuspicionInfo.class, new SuspicionInfoDeserializer())
                 .create();
     }
 
@@ -46,7 +52,7 @@ public class SuspectSession implements SuspicionExecutor {
 
     public SuspectSession(String reason) {
         var timestamp = System.currentTimeMillis() / 1000L;
-        this.info = new Suspector.SuspicionInfo(timestamp, reason);
+        this.info = new Suspector.SuspicionInfo(reason, timestamp);
         suspectors = loadSuspectors();
     }
 
@@ -60,8 +66,9 @@ public class SuspectSession implements SuspicionExecutor {
         var itemStack = inventory.getContents();
 
         var suspector = new Suspector(
-            player.getName(), Arrays.copyOf(itemStack, itemStack.length),
-            player.getGameMode(), this.info
+            player.getName(), player.getGameMode(),
+            Arrays.copyOf(itemStack, itemStack.length),
+            this.info
         );
 
         this.suspectors.add(suspector);
@@ -76,7 +83,7 @@ public class SuspectSession implements SuspicionExecutor {
         try {
             desired = pop(desired, suspectors);
             player.setGameMode(desired.lastGameMode);
-            player.getInventory().setContents(desired.inventoryItems);
+            notnull(desired.inventoryItems, s -> player.getInventory().setContents(s));
         } catch (NoSuchElementException e) {
             throw new NoSuchSuspectorException();
         }
@@ -99,9 +106,11 @@ public class SuspectSession implements SuspicionExecutor {
         var suspectorType = new TypeToken<Set<Suspector>>(){}.getType();
         var suspectors = new HashSet<Suspector>();
         try {
-            if (!file.createNewFile()) { // If file was not created (was existed yet)
+            if (!file.createNewFile()) { // If file was exist, load from file, else skip.
                 var json = Files.asCharSource(file, Charsets.UTF_8).read();
                 suspectors = gson.fromJson(json, suspectorType);
+                // Если в json ничего не было записано, создать новый HashSet<>, иначе - загрузить из json
+                suspectors = nullable(suspectors, s -> s, new HashSet<>());
             }
         } catch (IOException e) {
             e.printStackTrace();

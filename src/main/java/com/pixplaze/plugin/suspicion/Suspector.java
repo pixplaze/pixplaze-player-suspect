@@ -22,7 +22,7 @@ public class Suspector implements Serializable {
     public final GameMode lastGameMode;
     public final SuspicionInfo info;
 
-    public Suspector(String username, ItemStack[] inventoryItems, GameMode lastGameMode, SuspicionInfo info) {
+    public Suspector(String username, GameMode lastGameMode, ItemStack[] inventoryItems, SuspicionInfo info) {
         this.username = username;
         this.inventoryItems = inventoryItems;
         this.lastGameMode = lastGameMode;
@@ -44,7 +44,7 @@ public class Suspector implements Serializable {
         public final long timestamp;
         public final String reason;
 
-        public SuspicionInfo(long timestamp, String reason) {
+        public SuspicionInfo(String reason, long timestamp) {
             this.timestamp = timestamp;
             this.reason = reason;
         }
