@@ -3,6 +3,7 @@ package com.pixplaze.plugin.suspicion;
 import org.bukkit.GameMode;
 import org.bukkit.inventory.ItemStack;
 import java.io.Serializable;
+import java.util.Locale;
 
 /**
  * Класс представляющий подозреваемого игрока.
@@ -21,11 +22,15 @@ public class Suspector implements Serializable {
     public final GameMode lastGameMode;
     public final SuspicionInfo info;
 
-    public Suspector(String username, ItemStack[] inventoryItems, GameMode lastGameMode) {
+    public Suspector(String username, ItemStack[] inventoryItems, GameMode lastGameMode, SuspicionInfo info) {
         this.username = username;
         this.inventoryItems = inventoryItems;
         this.lastGameMode = lastGameMode;
-        this.info = new SuspicionInfo(System.currentTimeMillis() / 1000L, null);
+        this.info = info;
+    }
+
+    public Suspector(String username) {
+        this(username, null, null, null);
     }
 
     /**
@@ -34,7 +39,7 @@ public class Suspector implements Serializable {
      * Поле timestamp отвечает за время, когда игрок был заподозрен.
      * Поле reason отвечает за то, в чём игрок был заподозрен и как.
      */
-    protected static class SuspicionInfo implements Serializable {
+    public static class SuspicionInfo implements Serializable {
 
         public final long timestamp;
         public final String reason;
@@ -43,5 +48,16 @@ public class Suspector implements Serializable {
             this.timestamp = timestamp;
             this.reason = reason;
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        var another = (Suspector) obj;
+        return another.username.equalsIgnoreCase(this.username) && obj.getClass().equals(this.getClass());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.username.toLowerCase(Locale.ROOT).hashCode();
     }
 }

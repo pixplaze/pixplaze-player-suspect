@@ -1,21 +1,19 @@
 package com.pixplaze.plugin.commands;
 
-import com.pixplaze.plugin.PixplazePlayerSuspect;
-import com.pixplaze.plugin.suspicion.SuspectSession;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.Arrays;
 
-public class DesuspectCommand extends CommandBase {
+public class Desuspect extends Base {
 
     @Override
-    public boolean suspectAction(Player player, CommandSender sender) {
+    public boolean execute(Player player, CommandSender sender) {
         var message = "";
 
-        SuspectSession.desuspectPlayer(player);
+        Base.executor.desuspectPlayer(player);
 
         message = "The %s player is no longer suspect! Inventory restored. Game mode returned to survival".formatted(player.getName());
-        logger.warning("Items before suspecting: " + Arrays.toString(PixplazePlayerSuspect.playerItems));
+        logger.warning("Items before suspecting: " + Arrays.toString(Arrays.stream(player.getInventory().getContents()).toArray()));
         logger.info(message);
         sender.sendMessage(message);
         return true;

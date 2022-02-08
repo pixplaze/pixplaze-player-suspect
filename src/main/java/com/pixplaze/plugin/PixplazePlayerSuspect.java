@@ -1,22 +1,26 @@
 package com.pixplaze.plugin;
 
-import com.pixplaze.plugin.commands.SuspectCommand;
-import com.pixplaze.plugin.commands.DesuspectCommand;
-import org.bukkit.inventory.ItemStack;
+import com.pixplaze.plugin.commands.Suspect;
+import com.pixplaze.plugin.commands.Desuspect;
+import com.pixplaze.plugin.suspicion.SuspectSession;
+import com.pixplaze.plugin.suspicion.Suspector;
+import com.pixplaze.plugin.suspicion.SuspicionExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
 public final class PixplazePlayerSuspect extends JavaPlugin {
 
     private static PixplazePlayerSuspect instance;
+
     public final Logger logger;
-    public static ItemStack[] playerItems;
 
     public PixplazePlayerSuspect() {
         instance = this;
-        logger = getLogger();
+        this.logger = getLogger();
     }
 
     public static PixplazePlayerSuspect getInstance() {
@@ -26,12 +30,20 @@ public final class PixplazePlayerSuspect extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        Objects.requireNonNull(getCommand("suspect")).setExecutor(new SuspectCommand());
-        Objects.requireNonNull(getCommand("desuspect")).setExecutor(new DesuspectCommand());
+        Objects.requireNonNull(getCommand("suspect")).setExecutor(new Suspect());
+        Objects.requireNonNull(getCommand("desuspect")).setExecutor(new Desuspect());
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public List<Suspector> loadSuspectedPlayers() {
+        return null;
+    }
+
+    public void saveSuspectedPlayers() {
+
     }
 }
